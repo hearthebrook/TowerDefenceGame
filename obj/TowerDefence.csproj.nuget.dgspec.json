@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/brooklynn/Documents/GitHub/TowerDefence/TowerDefence.csproj": {}
+    "/Users/brooklynn/Documents/GitHub/TowerDefenceGame/TowerDefence.csproj": {}
   },
   "projects": {
-    "/Users/brooklynn/Documents/GitHub/TowerDefence/TowerDefence.csproj": {
+    "/Users/brooklynn/Documents/GitHub/TowerDefenceGame/TowerDefence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/brooklynn/Documents/GitHub/TowerDefence/TowerDefence.csproj",
+        "projectUniqueName": "/Users/brooklynn/Documents/GitHub/TowerDefenceGame/TowerDefence.csproj",
         "projectName": "TowerDefence",
-        "projectPath": "/Users/brooklynn/Documents/GitHub/TowerDefence/TowerDefence.csproj",
+        "projectPath": "/Users/brooklynn/Documents/GitHub/TowerDefenceGame/TowerDefence.csproj",
         "packagesPath": "/Users/brooklynn/.nuget/packages/",
-        "outputPath": "/Users/brooklynn/Documents/GitHub/TowerDefence/obj/",
+        "outputPath": "/Users/brooklynn/Documents/GitHub/TowerDefenceGame/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/brooklynn/.nuget/NuGet/NuGet.Config"
