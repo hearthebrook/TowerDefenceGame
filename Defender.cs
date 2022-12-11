@@ -59,7 +59,7 @@ namespace Tower{
                 this.size +=10;
             }
 
-            if (circles.Count > 7){
+            if (circles.Count == 7){
                 circles.Clear();
             }
         }

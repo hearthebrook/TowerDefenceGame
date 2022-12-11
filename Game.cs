@@ -166,9 +166,9 @@ namespace Tower {
                 foreach (Defender d in AlivePlayers) {
                     foreach (Vector2 v in d.circles){
                         foreach (Enemy e in Army.ToList()){
-                            if (d.circles.Count() > 7){
+                            if (d.circles.Count() == 6){
                                 if(Raylib.CheckCollisionCircleRec(v, d.size, e.Rect())){
-                                    e.Life -= 3;
+                                    e.EnemyCount -=1;
                                 }
                             }
                             if (e.IsDead()) {
