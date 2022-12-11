@@ -4,23 +4,19 @@ using System.Numerics;
 namespace Tower{
     class Enemy: GamePiece{
 
-        Texture2D texture;
+        public Texture2D texture{ get;set; }
 
-        Cource Path = new Cource(@"Cource.csv");
+        public Cource Path {get; set;} = new Cource(@"Cource.csv");
         public int EnemyCount {get; set;} = 0;
-        public int Life {get; set;} = 5;
+        public int Life {get; set;}
+        public string kind {get; set;}
 
-        public Enemy(Cource path) {
-            Path = path;
-            var image = Raylib.LoadImage(@"midevileThiefcopy2.png");
-            this.texture = Raylib.LoadTextureFromImage(image);
-            Raylib.UnloadImage(image); 
-
+        public Enemy() {
+            this.kind = "none";
             this.Location = Path.PathList[0];
         }
 
         public override void Draw() {
-            Raylib.DrawTexture(this.texture, (int)Location.X, (int)Location.Y, Color.WHITE);
         }
 
         public Rectangle Rect() {
@@ -38,9 +34,6 @@ namespace Tower{
             else {return false;}
         }
 
-        public bool IsHit(Defender d) {
-            return true;
-        }
         public bool IsDead() {
             if(Life <=0 ){
                 return true;

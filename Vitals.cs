@@ -38,7 +38,7 @@ namespace Tower {
 
         public override void Draw()
         {
-            Raylib.DrawText($"{Health}", (int)Location.X, (int)Location.Y, 20, Color.WHITE);
+            Raylib.DrawText($"Lives: {Health}", (int)Location.X, (int)Location.Y, 20, Color.WHITE);
         }
     }
 }

@@ -19,7 +19,8 @@ namespace Tower {
             var Wallet = new Wallet();
             var Life = new Life();
             List<Enemy> Army = new List<Enemy>();
-            var ErrorMessage = new ErrorMessage(); 
+            var ErrorMessage = new Message(200, 20); 
+            var LevelMessage = new Message(10, 450);
 
             // Creates the Defenders in the store
             var Wiz = new Wizard(thisPath, new Vector2(715, 350), Army);
@@ -42,6 +43,7 @@ namespace Tower {
             Display.Add(Life);
             Display.Add(Wallet);
             Display.Add(ErrorMessage);
+            Display.Add(LevelMessage);
 
             
             Raylib.SetTargetFPS(60);
@@ -49,6 +51,7 @@ namespace Tower {
             // Sets counters 
             int i = 0;
             int Count = 0;
+            bool GameOver = false;
 
             while (!Raylib.WindowShouldClose())
             {   
@@ -69,7 +72,7 @@ namespace Tower {
                                     Wallet.Balance -= Kni.Cost;
                                 }
                                 else {
-                                    ErrorMessage.message = "You don't have enough money in your pouch to buy that!";
+                                    ErrorMessage.message = "Keep Saving =D";
                                 }
                             }
                             if (Raylib.CheckCollisionRecs(r, Wiz.Rect())){
@@ -79,7 +82,7 @@ namespace Tower {
                                     Wallet.Balance -= Wiz.Cost;
                                 }
                                 else {
-                                    ErrorMessage.message = "You don't have enough money in your pouch to buy that!";
+                                    ErrorMessage.message = "Can't get that!";
                                 }
                             }
                             if (Raylib.CheckCollisionRecs(r, Cat.Rect())){
@@ -89,7 +92,7 @@ namespace Tower {
                                     Wallet.Balance -= Cat.Cost;
                                 }
                                 else {
-                                    ErrorMessage.message = "You don't have enough money in your pouch to buy that!";
+                                    ErrorMessage.message = "You don't have enough money";
                                 }
                             }
                         }
@@ -124,7 +127,9 @@ namespace Tower {
 
                 // Draws the bought players and their attacks
                 foreach (Defender d in AlivePlayers){
-                    d.Attack(Count);
+                    if(Army.Count() != 0){
+                        d.Attack(Count);
+                    }
                     d.Draw();
                 }   
 
@@ -140,19 +145,30 @@ namespace Tower {
                                 d.Arrows.Remove(a);
                             }
                             if (e.IsDead()) {
-                                Army.Remove(e);
-                                Wallet.Balance += 50;
+                                if (e.kind == "Archer"){
+                                    Army.Remove(e);
+                                    Wallet.Balance += 50;
+                                }
+                                else if (e.kind == "Waggon"){
+                                    for (i =1; i<5; i++){
+                                        var BadGuy = new Archer();
+                                        BadGuy.EnemyCount = e.EnemyCount-i*3;
+                                        Army.Add(BadGuy);
+                                    }
+                                    Army.Remove(e);
+                                }
                             }
                         }
                     }
                 }
 
+                // Wizard collisions
                 foreach (Defender d in AlivePlayers) {
                     foreach (Vector2 v in d.circles){
                         foreach (Enemy e in Army.ToList()){
-                            if (d.circles.Count() > 6){
+                            if (d.circles.Count() > 7){
                                 if(Raylib.CheckCollisionCircleRec(v, d.size, e.Rect())){
-                                    e.Life -= 1;
+                                    e.Life -= 3;
                                 }
                             }
                             if (e.IsDead()) {
@@ -166,8 +182,14 @@ namespace Tower {
                 // Draws the Army or removes them if they're at the end
                 foreach (Enemy g in Army.ToList()){
                     if (g.IsAtEnd(thisPath.PathList)){
-                        Army.Remove(g);
-                        Life.Hit(g.Life);
+                        if (g.kind == "Waggon"){
+                            Army.Remove(g);
+                            Life.Hit(15);
+                        }
+                        else if (g.kind == "Archer"){
+                            Army.Remove(g);
+                            Life.Hit(g.Life);
+                        }
                     }
                     else {
                         g.Draw();
@@ -178,11 +200,19 @@ namespace Tower {
                 Castle.Draw();
                 M.Draw(); 
 
+
                 
                 // checks for game over and displays message
-                if (Life.Health == 0){
+                if (Life.Health <= 0){
                     Raylib.DrawText("GAME OVER", 250, 200, 40, Color.WHITE);
+                    GameOver = true;
                 }  
+
+                if (GameOver == true){
+                    AlivePlayers.Clear();
+                    BoughtPlayers.Clear();
+                    Life.Health = 0;
+                }
 
                 Raylib.EndDrawing(); {
                 }
@@ -197,28 +227,45 @@ namespace Tower {
                 }
 
                 // Releases Enemies
+                // Level 1
                 if (Count < 450){
+                    LevelMessage.message = "LEVEL 1";
                     if (Count % 45 == 0){
-                        var BadGuy = new Enemy(thisPath);
+                        var BadGuy = new Archer();
                         Army.Add(BadGuy);
                     }
                 }
+
+                //Level 2
                 if (Count > 1556 && Count < 2500){
+                    LevelMessage.message = "LEVEL 2";
                     if (Count % 45 == 0){
-                        var BadGuy = new Enemy(thisPath);
+                        var BadGuy = new Archer();
                         Army.Add(BadGuy);
                     }
                 }
+                //Level 3
                 if (Count > 4000 && Count < 5000){
+                    LevelMessage.message = "LEVEL 3";
                     if (Count % 45 == 0){
-                        var BadGuy = new Enemy(thisPath);
+                        var BadGuy = new Archer();
                         Army.Add(BadGuy);
                     }
+                    if (Count % 300 == 0){
+                        var Waggon = new Waggon();
+                        Army.Add(Waggon);
+                    }
                 }
-                if (Count > 8000 && Count < 8000){
+                // Level 4
+                if (Count > 6500 && Count < 8000){
+                    LevelMessage.message = "LEVEL 4";
                     if (Count % 45 == 0){
-                        var BadGuy = new Enemy(thisPath);
+                        var BadGuy = new Archer();
                         Army.Add(BadGuy);
+                    }
+                    if (Count % 300 == 0){
+                        var Waggon = new Waggon();
+                        Army.Add(Waggon);
                     }
                 }
             
@@ -226,6 +273,7 @@ namespace Tower {
             Count ++;
             i ++;
         }
+
         Raylib.CloseWindow();
     }
     }

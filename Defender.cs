@@ -35,15 +35,13 @@ namespace Tower{
         Cource Path = new Cource(@"Cource.csv");
         List<Enemy> Army = new List<Enemy>();
 
-        
-
         public Wizard(Cource path, Vector2 i, List<Enemy> army) {
             Path = path;
             var image = Raylib.LoadImage(@"wizard.png");
             this.texture = Raylib.LoadTextureFromImage(image);
             Raylib.UnloadImage(image); 
 
-            this.Cost = 500;
+            this.Cost = 800;
             this.Location = i;
 
             Army = army;
@@ -96,19 +94,19 @@ namespace Tower{
             //ArrowPositions = new Vector2(this.Location.X+35, this.Location.Y+45);
             if (count % 100 == 0){
                 Arrow a = new Arrow(this, 2, 25, Color.DARKBROWN, 1); 
-                a.Velocity = new Vector2(0, -1);
+                a.Velocity = new Vector2(0, -2);
                 this.Arrows.Add(a);
 
                 Arrow b = new Arrow(this, 2, 25, Color.DARKBROWN, 1); 
-                b.Velocity = new Vector2(0, 1);
+                b.Velocity = new Vector2(0, 2);
                 Arrows.Add(b);
 
                 Arrow c = new Arrow(this, 25, 2, Color.DARKBROWN, 1); 
-                c.Velocity = new Vector2(-1, 0);
+                c.Velocity = new Vector2(-2, 0);
                 Arrows.Add(c);
 
                 Arrow d = new Arrow(this, 25, 2, Color.DARKBROWN, 1); 
-                d.Velocity = new Vector2(1, 0);
+                d.Velocity = new Vector2(2, 0);
                 Arrows.Add(d);
             }
 
@@ -146,7 +144,7 @@ namespace Tower{
         public override void Attack(int count){
             if (count % 130 == 0){
                 Arrow a = new Arrow(this, 8, 8, Color.BLACK, 5); 
-                a.Velocity = new Vector2(0, -2);
+                a.Velocity = new Vector2(0, -3);
                 Arrows.Add(a);
             }
 
